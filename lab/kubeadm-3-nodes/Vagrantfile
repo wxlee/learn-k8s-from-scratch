@@ -51,5 +51,12 @@ Vagrant.configure(2) do |config|
         config.vm.network :private_network, ip: opts[:eth1]
       end
   end
-  config.vm.provision "shell", privileged: true, path: "./setup.sh"
+  
+  if opts[:name] == "k8s-master"
+    config.vm.provision "shell", privileged: true, path: "./setup.sh"
+    config.vm.provision "shell", privileged: true, path: "./master.sh"
+  else
+    config.vm.provision "shell", privileged: true, path: "./setup.sh"
+  end
+
 end
